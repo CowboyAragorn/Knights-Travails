@@ -224,10 +224,17 @@ function createSquares() {
   for (let i = 0; i < 8; i++) {
     let row = document.createElement("div");
     row.id = "row" + i;
-    board.append(row);
+    row.classList.add("row");
+    if (i % 2 === 0) {
+      row.classList.add("evenRow");
+    } else {
+      row.classList.add("oddRow");
+    }
+    board.prepend(row);
     for (let j = 0; j < 8; j++) {
       let sq = document.createElement("div");
       sq.id = n;
+      sq.classList.add("square");
       n++;
       let currentRow = "row" + i;
       let currentRowId = document.getElementById(currentRow);
