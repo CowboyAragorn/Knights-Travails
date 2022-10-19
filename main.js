@@ -21,9 +21,15 @@ function square(
   this.eighth = eighth;
 }
 
-function Knight(knightPosition, children) {
-  this.knightPosition = knightPosition;
-  this.children = children;
+function Knight(knightStart, knightEnd, possibleSquares) {
+  this.knightStart = knightStart;
+  this.knightEnd = knightEnd;
+  this.possibleSquares = possibleSquares;
+}
+//traversal objects keep track of previous movements so as to trace steps backwards
+function Traversal(val, prev) {
+  this.val = val;
+  this.prev = prev;
 }
 
 function createGameBoard() {
@@ -120,7 +126,22 @@ function getKnightPosition() {
 }
 
 //creates new knight object with a starting position and array of possible jumps
-function buildKnightTree(arr) {
+function buildKnightTree(arr, arr1 = null) {
+  let childArr = buildChildArray(arr);
+  let possibleSquares = [];
+  console.log("childArr");
+
+  for (let i = 0; i < childArr.length; i++) {
+    let traversal = new Traversal(childArr[i], arr);
+    possibleSquares.push(traversal);
+  }
+  //create new knight obj with starting position and array of possible jumps
+  let knight = new Knight(arr, arr1, possibleSquares);
+  return knight;
+}
+
+//separate function to build children, usable to build the knight obj and the queue array in level order traversal
+function buildChildArray(arr) {
   let childrenArray = [];
   //find the index of the array and get access to its corresponding obj in the hash table
   let index = findIndex(arr);
@@ -129,18 +150,44 @@ function buildKnightTree(arr) {
   let objKeys = Object.entries(knightGameBoardSpace);
   //1 index so as to avoid pushing to square value to children
   for (let i = 1; i < objKeys.length; i++) {
-    childrenArray.push(objKeys[i][1]);
+    //if possible space is null, don't push it
+    if (objKeys[i][1] != null) {
+      childrenArray.push(objKeys[i][1]);
+    }
   }
-  //create new knight obj with starting position and array of possible jumps
-  let knight = new Knight(arr, childrenArray);
-  return knight;
+  return childrenArray;
 }
-
 function writeAllIndex() {
   for (let i = 0; i < gameBoard.length; i++) {
     console.log(gameBoard[i].squareValue);
     console.log(findIndex(gameBoard[i].squareValue));
   }
+}
+//level order check knight's path;
+function levelOrderTraversal(knight, queue) {
+  console.log("queue");
+  console.log(queue);
+  //check if first in queue is the endpoint
+  for (let i = 0; i < queue.length; i++) {
+    if (
+      queue[i].val[0] === knight.knightEnd[0] &&
+      queue[i].val[1] === knight.knightEnd[1]
+    ) {
+      return console.log("YOU FOUND IT - WINNER WINNER");
+    }
+  }
+  //set up temp arr
+  let tempArr = [];
+  for (let i = 0; i < queue.length; i++) {
+    let childArr = buildChildArray(queue[i].val);
+    //implement a traversal object to keep track of previous
+    for (let j = 0; j < childArr.length; j++) {
+      let traversal = new Traversal(childArr[j], queue[i]);
+      tempArr.push(traversal);
+    }
+  }
+  console.log("tempArr");
+  console.log(tempArr);
 }
 
 const gameBoard = createGameBoard();
@@ -156,4 +203,6 @@ console.log(returnSquareFromIndex(54));
 console.log(chessFormatSquareValue(returnSquareFromIndex(55)));
 //writeAllIndex();
 //console.log(buildKnightTree(knightPosition[0]));
-console.log(buildKnightTree([0, 0]));
+let builtKnightTree = buildKnightTree([0, 0], [0, 5]);
+console.log(builtKnightTree);
+levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
