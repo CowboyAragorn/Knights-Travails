@@ -1,12 +1,35 @@
+#boardContainer {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 3fr 1fr;
+}
 #board {
   height: 100%;
   width: 100%;
+}
+#verticalNumbers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+#horizontalLetters {
+  display: flex;
+  grid-column: 2;
+}
+#verticalNumbers > *,
+#horizontalLetters > * {
+  border: white 1pt solid;
+  font-size: 2rem;
 }
 
 .row {
   display: flex;
 }
 .square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border: black 1pt solid;
   width: 50px;
