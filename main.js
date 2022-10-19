@@ -74,6 +74,7 @@ function createGameBoard() {
   }
   return gameBoard;
 }
+//Generates a knight at a random position
 function generateKnight() {
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -82,19 +83,14 @@ function generateKnight() {
   return knight;
   //return [getRandomInt(7), getRandomInt(7)];
 }
-
+//find index of a provided array of paired values
 function findIndex(arr) {
   //find index locates the index of a provided array of paired values
   let rval;
-  //separate logic for first row as it starts with 0
-  if (arr[0] === 0) {
-    rval = arr[0] * 7 + arr[1];
-  } else {
-    rval = arr[0] * 8 + arr[1];
-  }
+  rval = arr[0] * 8 + arr[1];
   return rval;
 }
-
+//returns the square object from a provided index
 function returnSquareFromIndex(index) {
   return gameBoard[index];
 }
@@ -105,6 +101,20 @@ function chessFormatSquareValue(object) {
   let plusAr1 = arr[1] + 1;
   return alphabet[arr[0]] + plusAr1.toString();
 }
+//prompts user for a knights starting and ending position
+function getKnightPosition() {
+  let starting = prompt("Enter a knight's starting square");
+  let startingArr = starting.split(",");
+  let ending = prompt("Enter a knight's ending square");
+  endingArr = ending.split(",");
+  for (let i = 0; i < startingArr.length; i++) {
+    startingArr[i] = parseInt(startingArr[i]);
+    endingArr[i] = parseInt(endingArr[i]);
+  }
+  return [startingArr, endingArr];
+}
+
+function buildKnightTree() {}
 
 function writeAllIndex() {
   for (let i = 0; i < gameBoard.length; i++) {
@@ -115,12 +125,13 @@ function writeAllIndex() {
 
 const gameBoard = createGameBoard();
 const knight = generateKnight();
-
+console.log("get knight position");
+console.log(getKnightPosition());
 console.log(gameBoard);
 console.log(knight.squareValue);
 console.log("your knight is at " + chessFormatSquareValue(knight));
 
-console.log(findIndex([6, 6]));
+console.log(findIndex([7, 7]));
 console.log(returnSquareFromIndex(54));
 console.log(chessFormatSquareValue(returnSquareFromIndex(55)));
-//writeAllIndex();
+writeAllIndex();
