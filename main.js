@@ -242,11 +242,27 @@ function createSquares() {
     }
   }
 }
+function illuminateStartAndEndSquare(arr1, arr2) {
+  let indexArr1 = findIndex(arr1);
+  console.log("index1");
+  console.log(indexArr1);
+  let indexArr2 = findIndex(arr2);
+  let startSq = document.getElementById(indexArr1);
+  console.log(startSq);
+  let endSq = document.getElementById(indexArr2);
+  startSq.classList.add("startSquare");
+  startSq.style.backgroundColor = "green";
+  startSq.innerHTML = "S";
+  endSq.classList.add("endSquare");
+  endSq.style.backgroundColor = "red";
+  endSq.innerHTML = "E";
+}
 
 //const knight = generateKnight();
 
 const gameBoard = createGameBoard();
-//let knightPosition = getKnightPosition();
-//let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
-//levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
+let knightPosition = getKnightPosition();
+let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
+levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
 createSquares();
+illuminateStartAndEndSquare(knightPosition[0], knightPosition[1]);

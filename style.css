@@ -43,3 +43,15 @@
 .oddRow > :nth-child(even) {
   background-color: black;
 }
+
+.startSquare {
+  background-color: green;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.endSquare {
+  background-color: red;
+  font-weight: bold;
+  font-size: 2rem;
+}
