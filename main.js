@@ -112,6 +112,15 @@ function chessFormatSquareValue(object) {
   let plusAr1 = arr[1] + 1;
   return alphabet[arr[0]] + plusAr1.toString();
 }
+
+function chessFormatArray(arr) {
+  let alphabet = "ABCDEFGH".split("");
+  let arrVal = arr[0];
+  let alphVal = alphabet[arrVal];
+  //because the math is zero indexed but chess is 1 indexed
+  let plusArr1 = arr[1] + 1;
+  return alphVal + plusArr1.toString();
+}
 //prompts user for a knights starting and ending position
 function getKnightPosition() {
   let starting = prompt("Enter a knight's starting square");
@@ -132,7 +141,7 @@ function buildKnightTree(arr, arr1 = null) {
   console.log("childArr");
 
   for (let i = 0; i < childArr.length; i++) {
-    let traversal = new Traversal(childArr[i], arr);
+    let traversal = new Traversal(childArr[i], new Traversal(arr, null));
     possibleSquares.push(traversal);
   }
   //create new knight obj with starting position and array of possible jumps
@@ -173,7 +182,9 @@ function levelOrderTraversal(knight, queue) {
       queue[i].val[0] === knight.knightEnd[0] &&
       queue[i].val[1] === knight.knightEnd[1]
     ) {
-      return console.log("YOU FOUND IT - WINNER WINNER");
+      console.log("YOU FOUND IT - WINNER WINNER");
+      showPath(knight, queue[i]);
+      return;
     }
   }
   //set up temp arr
@@ -188,6 +199,32 @@ function levelOrderTraversal(knight, queue) {
   }
   console.log("tempArr");
   console.log(tempArr);
+
+  //dump the old queue, start on new one
+  queue = tempArr;
+  console.log("queue");
+  console.log(queue);
+  return levelOrderTraversal(knight, queue);
+}
+
+function showPath(knight, space) {
+  let pathArr = [space.val];
+  //while the current space is not the same as the starting space
+  while (
+    space.val[0] != knight.knightStart[0] ||
+    space.val[1] != knight.knightStart[1]
+  ) {
+    space = space.prev;
+    //push to a path array
+    pathArr.push(space.val);
+  }
+  pathArr.push(knight.knightStart);
+  console.log(pathArr);
+  console.log("Your Path: ");
+  //reverse print the array
+  for (let i = pathArr.length - 1; i > 0; i--) {
+    console.log(chessFormatArray(pathArr[i - 1]));
+  }
 }
 
 const gameBoard = createGameBoard();
@@ -203,6 +240,6 @@ console.log(returnSquareFromIndex(54));
 console.log(chessFormatSquareValue(returnSquareFromIndex(55)));
 //writeAllIndex();
 //console.log(buildKnightTree(knightPosition[0]));
-let builtKnightTree = buildKnightTree([0, 0], [0, 5]);
+let builtKnightTree = buildKnightTree([0, 0], [7, 7]);
 console.log(builtKnightTree);
 levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
