@@ -1,9 +1,30 @@
+//square constructor
+function square(
+  squareValue,
+  first,
+  second,
+  third,
+  fourth,
+  fifth,
+  sixth,
+  seventh,
+  eighth
+) {
+  this.squareValue = squareValue;
+  this.first = first;
+  this.second = second;
+  this.third = third;
+  this.fourth = fourth;
+  this.fifth = fifth;
+  this.sixth = sixth;
+  this.seventh = seventh;
+  this.eighth = eighth;
+}
+
 function createGameBoard() {
   let gameBoard = [];
-  let alphabet = "abcdefgh".split("");
-  //going to 1 index just because it makes it easier to read from a chess perspective
-  for (let i = 1; i <= 8; i++) {
-    for (let j = 1; j <= 8; j++) {
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
       const currentSquare = [i, j];
       let iMinus2 = i - 2;
       let iMinus1 = i - 1;
@@ -27,12 +48,11 @@ function createGameBoard() {
 
       //check temp array to see if the values for possible jumps are off the board, make that jump null
       for (let i = 0; i < tempArr.length; i++) {
-        //have to make them <= zero because not 0 indexing
         if (
-          tempArr[i][0] > 8 ||
-          tempArr[i][0] <= 0 ||
-          tempArr[i][1] > 8 ||
-          tempArr[i][1] <= 0
+          tempArr[i][0] >= 8 ||
+          tempArr[i][0] < 0 ||
+          tempArr[i][1] >= 8 ||
+          tempArr[i][1] < 0
         ) {
           tempArr[i] = null;
         }
@@ -52,56 +72,42 @@ function createGameBoard() {
       gameBoard.push(newSquare);
     }
   }
-  console.log(gameBoard);
+  return gameBoard;
 }
 
-function square(
-  squareValue,
-  first,
-  second,
-  third,
-  fourth,
-  fifth,
-  sixth,
-  seventh,
-  eighth
-) {
-  this.squareValue = squareValue;
-  this.first = first;
-  this.second = second;
-  this.third = third;
-  this.fourth = fourth;
-  this.fifth = fifth;
-  this.sixth = sixth;
-  this.seventh = seventh;
-  this.eighth = eighth;
+function findIndex(arr) {
+  //find index locates the index of a provided array of paired values
+  let rval;
+  //separate logic for first row as it starts with 0
+  if (arr[0] === 0) {
+    rval = arr[0] * 7 + arr[1];
+  } else {
+    rval = arr[0] * 8 + arr[1];
+  }
+  return rval;
 }
 
-let square44 = new square(
-  [4, 4],
-  [2, 3],
-  [2, 5],
-  [3, 2],
-  [3, 6],
-  [5, 2],
-  [5, 6],
-  [6, 3],
-  [6, 5]
-);
+function returnSquareFromIndex(index) {
+  return gameBoard[index];
+}
+//just for visual output in chess format, not for use by any other function
+function chessFormatSquareValue(object) {
+  let alphabet = "ABCDEFGH".split("");
+  let arr = object.squareValue;
+  return alphabet[arr[0]] + arr[1].toString();
+}
 
-let square442 = new square(
-  ["d", 4],
-  ["b", 3],
-  ["b", 5],
-  ["c", 2],
-  ["c", 6],
-  ["e", 2],
-  ["e", 6],
-  ["f", 3],
-  ["f", 5]
-);
-console.log(square44);
+function writeAllIndex() {
+  for (let i = 0; i < gameBoard.length; i++) {
+    console.log(gameBoard[i].squareValue);
+    console.log(findIndex(gameBoard[i].squareValue));
+  }
+}
 
-console.log(square44.first);
+const gameBoard = createGameBoard();
+console.log(gameBoard);
 
-createGameBoard();
+console.log(findIndex([6, 6]));
+console.log(returnSquareFromIndex(54));
+console.log(chessFormatSquareValue(returnSquareFromIndex(54)));
+//writeAllIndex();
