@@ -74,6 +74,14 @@ function createGameBoard() {
   }
   return gameBoard;
 }
+function generateKnight() {
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+  let knight = new square([getRandomInt(8), getRandomInt(8)]);
+  return knight;
+  //return [getRandomInt(7), getRandomInt(7)];
+}
 
 function findIndex(arr) {
   //find index locates the index of a provided array of paired values
@@ -94,7 +102,8 @@ function returnSquareFromIndex(index) {
 function chessFormatSquareValue(object) {
   let alphabet = "ABCDEFGH".split("");
   let arr = object.squareValue;
-  return alphabet[arr[0]] + arr[1].toString();
+  let plusAr1 = arr[1] + 1;
+  return alphabet[arr[0]] + plusAr1.toString();
 }
 
 function writeAllIndex() {
@@ -105,9 +114,13 @@ function writeAllIndex() {
 }
 
 const gameBoard = createGameBoard();
+const knight = generateKnight();
+
 console.log(gameBoard);
+console.log(knight.squareValue);
+console.log("your knight is at " + chessFormatSquareValue(knight));
 
 console.log(findIndex([6, 6]));
 console.log(returnSquareFromIndex(54));
-console.log(chessFormatSquareValue(returnSquareFromIndex(54)));
+console.log(chessFormatSquareValue(returnSquareFromIndex(55)));
 //writeAllIndex();
