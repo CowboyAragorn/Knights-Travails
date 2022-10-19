@@ -201,6 +201,7 @@ function levelOrderTraversal(knight, queue) {
 //function prints to the console the path that the knight takes
 function showPath(knight, space) {
   let pathArr = [space.val];
+  let reversedPathArr = [];
   //while the current space is not the same as the starting space
   while (
     space.val[0] != knight.knightStart[0] ||
@@ -210,12 +211,15 @@ function showPath(knight, space) {
     //push to a path array
     pathArr.push(space.val);
   }
-  pathArr.push(knight.knightStart);
+
   console.log("Your Path: ");
+  console.log(pathArr);
   //reverse print the array
-  for (let i = pathArr.length - 1; i > 0; i--) {
+  for (let i = pathArr.length; i > 0; i--) {
     console.log(chessFormatArray(pathArr[i - 1]));
+    reversedPathArr.push(pathArr[i - 1]);
   }
+  colorVisitedSquares(reversedPathArr);
 }
 
 function createSquares() {
@@ -242,27 +246,42 @@ function createSquares() {
     }
   }
 }
-function illuminateStartAndEndSquare(arr1, arr2) {
-  let indexArr1 = findIndex(arr1);
-  console.log("index1");
-  console.log(indexArr1);
-  let indexArr2 = findIndex(arr2);
-  let startSq = document.getElementById(indexArr1);
+
+function colorVisitedSquares(arr) {
+  let indexArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    let index = findIndex(arr[i]);
+    indexArr.push(index);
+  }
+  console.log(indexArr);
+  console.log(indexArr[0]);
+  //color first and last individually
+  let startSq = document.getElementById(indexArr[0]);
   console.log(startSq);
-  let endSq = document.getElementById(indexArr2);
-  startSq.classList.add("startSquare");
   startSq.style.backgroundColor = "green";
   startSq.innerHTML = "S";
-  endSq.classList.add("endSquare");
+  startSq.classList.add("impactedSquare");
+
+  let endSq = document.getElementById(indexArr[indexArr.length - 1]);
+  endSq.classList.add("impactedSquare");
   endSq.style.backgroundColor = "red";
   endSq.innerHTML = "E";
+  //interate through the rest putting colors and numbers
+  for (let i = 1; i < indexArr.length - 1; i++) {
+    let movedThruSq = document.getElementById(indexArr[i]);
+    movedThruSq.style.backgroundColor = "yellow";
+    movedThruSq.innerHTML = i;
+    movedThruSq.classList.add("impactedSquare");
+  }
 }
 
 //const knight = generateKnight();
-
+createSquares();
 const gameBoard = createGameBoard();
-let knightPosition = getKnightPosition();
+//let knightPosition = getKnightPosition();
+let knightPosition = [
+  [0, 0],
+  [7, 7],
+];
 let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
 levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
-createSquares();
-illuminateStartAndEndSquare(knightPosition[0], knightPosition[1]);
