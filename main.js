@@ -218,19 +218,28 @@ function showPath(knight, space) {
   }
 }
 
-const gameBoard = createGameBoard();
-const knight = generateKnight();
-//console.log("get knight position");
-let knightPosition = getKnightPosition();
-//console.log(gameBoard);
-//console.log(knight.squareValue);
-//console.log("your knight is at " + chessFormatSquareValue(knight));
+function createSquares() {
+  let n = 0;
+  let board = document.getElementById("board");
+  for (let i = 0; i < 8; i++) {
+    let row = document.createElement("div");
+    row.id = "row" + i;
+    board.append(row);
+    for (let j = 0; j < 8; j++) {
+      let sq = document.createElement("div");
+      sq.id = n;
+      n++;
+      let currentRow = "row" + i;
+      let currentRowId = document.getElementById(currentRow);
+      currentRowId.append(sq);
+    }
+  }
+}
 
-//console.log(findIndex([7, 7]));
-//console.log(returnSquareFromIndex(54));
-//console.log(chessFormatSquareValue(returnSquareFromIndex(55)));
-//writeAllIndex();
-//console.log(buildKnightTree(knightPosition[0]));
-let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
-//console.log(builtKnightTree);
-levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
+//const knight = generateKnight();
+
+const gameBoard = createGameBoard();
+//let knightPosition = getKnightPosition();
+//let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
+//levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
+createSquares();
