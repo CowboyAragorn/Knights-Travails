@@ -92,7 +92,6 @@ function generateKnight() {
   }
   let knight = new square([getRandomInt(8), getRandomInt(8)]);
   return knight;
-  //return [getRandomInt(7), getRandomInt(7)];
 }
 //find index of a provided array of paired values
 function findIndex(arr) {
@@ -138,7 +137,6 @@ function getKnightPosition() {
 function buildKnightTree(arr, arr1 = null) {
   let childArr = buildChildArray(arr);
   let possibleSquares = [];
-  console.log("childArr");
 
   for (let i = 0; i < childArr.length; i++) {
     let traversal = new Traversal(childArr[i], new Traversal(arr, null));
@@ -174,20 +172,17 @@ function writeAllIndex() {
 }
 //level order check knight's path;
 function levelOrderTraversal(knight, queue) {
-  console.log("queue");
-  console.log(queue);
   //check if first in queue is the endpoint
   for (let i = 0; i < queue.length; i++) {
     if (
       queue[i].val[0] === knight.knightEnd[0] &&
       queue[i].val[1] === knight.knightEnd[1]
     ) {
-      console.log("YOU FOUND IT - WINNER WINNER");
       showPath(knight, queue[i]);
       return;
     }
   }
-  //set up temp arr
+  //set up temp arr with next set of level order values
   let tempArr = [];
   for (let i = 0; i < queue.length; i++) {
     let childArr = buildChildArray(queue[i].val);
@@ -197,16 +192,13 @@ function levelOrderTraversal(knight, queue) {
       tempArr.push(traversal);
     }
   }
-  console.log("tempArr");
-  console.log(tempArr);
-
   //dump the old queue, start on new one
   queue = tempArr;
-  console.log("queue");
-  console.log(queue);
+  //recursively call until end square is found
   return levelOrderTraversal(knight, queue);
 }
 
+//function prints to the console the path that the knight takes
 function showPath(knight, space) {
   let pathArr = [space.val];
   //while the current space is not the same as the starting space
@@ -219,7 +211,6 @@ function showPath(knight, space) {
     pathArr.push(space.val);
   }
   pathArr.push(knight.knightStart);
-  console.log(pathArr);
   console.log("Your Path: ");
   //reverse print the array
   for (let i = pathArr.length - 1; i > 0; i--) {
@@ -230,16 +221,16 @@ function showPath(knight, space) {
 const gameBoard = createGameBoard();
 const knight = generateKnight();
 //console.log("get knight position");
-//let knightPosition = getKnightPosition();
-console.log(gameBoard);
-console.log(knight.squareValue);
-console.log("your knight is at " + chessFormatSquareValue(knight));
+let knightPosition = getKnightPosition();
+//console.log(gameBoard);
+//console.log(knight.squareValue);
+//console.log("your knight is at " + chessFormatSquareValue(knight));
 
-console.log(findIndex([7, 7]));
-console.log(returnSquareFromIndex(54));
-console.log(chessFormatSquareValue(returnSquareFromIndex(55)));
+//console.log(findIndex([7, 7]));
+//console.log(returnSquareFromIndex(54));
+//console.log(chessFormatSquareValue(returnSquareFromIndex(55)));
 //writeAllIndex();
 //console.log(buildKnightTree(knightPosition[0]));
-let builtKnightTree = buildKnightTree([0, 0], [7, 7]);
-console.log(builtKnightTree);
+let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
+//console.log(builtKnightTree);
 levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
