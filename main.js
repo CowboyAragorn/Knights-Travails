@@ -21,6 +21,11 @@ function square(
   this.eighth = eighth;
 }
 
+function Knight(knightPosition, children) {
+  this.knightPosition = knightPosition;
+  this.children = children;
+}
+
 function createGameBoard() {
   let gameBoard = [];
   for (let i = 0; i < 8; i++) {
@@ -114,7 +119,22 @@ function getKnightPosition() {
   return [startingArr, endingArr];
 }
 
-function buildKnightTree() {}
+//creates new knight object with a starting position and array of possible jumps
+function buildKnightTree(arr) {
+  let childrenArray = [];
+  //find the index of the array and get access to its corresponding obj in the hash table
+  let index = findIndex(arr);
+  let knightGameBoardSpace = gameBoard[index];
+  //iteratively push the possible knight jump spots to the children array
+  let objKeys = Object.entries(knightGameBoardSpace);
+  //1 index so as to avoid pushing to square value to children
+  for (let i = 1; i < objKeys.length; i++) {
+    childrenArray.push(objKeys[i][1]);
+  }
+  //create new knight obj with starting position and array of possible jumps
+  let knight = new Knight(arr, childrenArray);
+  return knight;
+}
 
 function writeAllIndex() {
   for (let i = 0; i < gameBoard.length; i++) {
@@ -125,8 +145,8 @@ function writeAllIndex() {
 
 const gameBoard = createGameBoard();
 const knight = generateKnight();
-console.log("get knight position");
-console.log(getKnightPosition());
+//console.log("get knight position");
+//let knightPosition = getKnightPosition();
 console.log(gameBoard);
 console.log(knight.squareValue);
 console.log("your knight is at " + chessFormatSquareValue(knight));
@@ -134,4 +154,6 @@ console.log("your knight is at " + chessFormatSquareValue(knight));
 console.log(findIndex([7, 7]));
 console.log(returnSquareFromIndex(54));
 console.log(chessFormatSquareValue(returnSquareFromIndex(55)));
-writeAllIndex();
+//writeAllIndex();
+//console.log(buildKnightTree(knightPosition[0]));
+console.log(buildKnightTree([0, 0]));
