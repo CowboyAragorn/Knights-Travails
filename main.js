@@ -121,21 +121,6 @@ function chessFormatArray(arr) {
   return alphVal + plusArr1.toString();
 }
 
-/*
-//prompts user for a knights starting and ending position
-function getKnightPosition() {
-  let starting = prompt("Enter a knight's starting square");
-  let startingArr = starting.split(",");
-  let ending = prompt("Enter a knight's ending square");
-  endingArr = ending.split(",");
-  for (let i = 0; i < startingArr.length; i++) {
-    startingArr[i] = parseInt(startingArr[i]);
-    endingArr[i] = parseInt(endingArr[i]);
-  }
-  return [startingArr, endingArr];
-}
-*/
-
 function getKnightPosition() {
   //input 1 and 3 are letters and need to be translated to their numeric values
   let input1 = document.getElementById("select1");
@@ -145,9 +130,6 @@ function getKnightPosition() {
 
   let startingArr = [parseInt(input1.value), parseInt(input2.value)];
   let endingArr = [parseInt(input3.value), parseInt(input4.value)];
-
-  console.log(startingArr);
-  console.log(endingArr);
   return [startingArr, endingArr];
 }
 
@@ -231,10 +213,9 @@ function showPath(knight, space) {
   }
 
   console.log("Your Path: ");
-  console.log(pathArr);
   //reverse print the array
   for (let i = pathArr.length; i > 0; i--) {
-    console.log(chessFormatArray(pathArr[i - 1]));
+    console.log(pathArr[i - 1]);
     reversedPathArr.push(pathArr[i - 1]);
   }
   colorVisitedSquares(reversedPathArr);
@@ -271,11 +252,8 @@ function colorVisitedSquares(arr) {
     let index = findIndex(arr[i]);
     indexArr.push(index);
   }
-  console.log(indexArr);
-  console.log(indexArr[0]);
   //color first and last individually
   let startSq = document.getElementById(indexArr[0]);
-  console.log(startSq);
   startSq.style.backgroundColor = "green";
   startSq.innerHTML = "S";
   startSq.classList.add("impactedSquare");
