@@ -225,23 +225,23 @@ function createSquares() {
   let n = 0;
   let board = document.getElementById("board");
   for (let i = 0; i < 8; i++) {
-    let row = document.createElement("div");
-    row.id = "row" + i;
-    row.classList.add("row");
+    let column = document.createElement("div");
+    column.id = "column" + i;
+    column.classList.add("column");
     if (i % 2 === 0) {
-      row.classList.add("evenRow");
+      column.classList.add("evenColumn");
     } else {
-      row.classList.add("oddRow");
+      column.classList.add("oddColumn");
     }
-    board.prepend(row);
+    board.append(column);
     for (let j = 0; j < 8; j++) {
       let sq = document.createElement("div");
       sq.id = n;
       sq.classList.add("square");
       n++;
-      let currentRow = "row" + i;
-      let currentRowId = document.getElementById(currentRow);
-      currentRowId.append(sq);
+      let currentColumn = "column" + i;
+      let currentColumnId = document.getElementById(currentColumn);
+      currentColumnId.prepend(sq);
     }
   }
 }

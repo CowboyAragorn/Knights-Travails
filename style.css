@@ -4,14 +4,17 @@
   grid-template-rows: 3fr 1fr 2fr;
 }
 #board {
+  display: flex;
   height: 100%;
   width: 100%;
+  align-items: end;
 }
 #verticalNumbers {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: end;
+  align-items: end;
 }
 #horizontalLetters {
   display: flex;
@@ -24,8 +27,9 @@
   font-size: 2rem;
 }
 
-.row {
+.column {
   display: flex;
+  flex-direction: column;
 }
 .square {
   display: flex;
@@ -37,15 +41,15 @@
   height: 50px;
 }
 
-.evenRow > :nth-child(odd) {
+.evenColumn > :nth-child(even) {
   background-color: black;
 }
 
-.oddRow > :nth-child(even) {
+.oddColumn > :nth-child(odd) {
   background-color: black;
 }
 
-.impactedSqare {
+.impactedSquare {
   font-weight: bold;
   font-size: 2rem;
 }
