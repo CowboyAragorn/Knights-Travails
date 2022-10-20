@@ -298,15 +298,27 @@ function knightPositionEventAdder() {
   submitBtn.addEventListener("click", eventScript);
 }
 
+function removeSquares() {
+  let board = document.getElementById("board");
+  while (board.hasChildNodes()) {
+    board.removeChild(board.firstChild);
+  }
+}
+
 //this script is called by clicking the submit btn
 function eventScript() {
+  //lazy here, clears and remakes the board each click so user can test multiple times
+  removeSquares();
+  createSquares();
   let knightPosition = getKnightPosition();
   let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
   levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
 }
 
 //const knight = generateKnight();
+//makes chessboard display
 createSquares();
+//sets up the adjacency list for every possible knight move per square
 const gameBoard = createGameBoard();
 knightPositionEventAdder();
 //testing purposes
