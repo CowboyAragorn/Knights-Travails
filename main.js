@@ -120,6 +120,8 @@ function chessFormatArray(arr) {
   let plusArr1 = arr[1] + 1;
   return alphVal + plusArr1.toString();
 }
+
+/*
 //prompts user for a knights starting and ending position
 function getKnightPosition() {
   let starting = prompt("Enter a knight's starting square");
@@ -130,6 +132,22 @@ function getKnightPosition() {
     startingArr[i] = parseInt(startingArr[i]);
     endingArr[i] = parseInt(endingArr[i]);
   }
+  return [startingArr, endingArr];
+}
+*/
+
+function getKnightPosition() {
+  //input 1 and 3 are letters and need to be translated to their numeric values
+  let input1 = document.getElementById("select1");
+  let input2 = document.getElementById("select2");
+  let input3 = document.getElementById("select3");
+  let input4 = document.getElementById("select4");
+
+  let startingArr = [parseInt(input1.value), parseInt(input2.value)];
+  let endingArr = [parseInt(input3.value), parseInt(input4.value)];
+
+  console.log(startingArr);
+  console.log(endingArr);
   return [startingArr, endingArr];
 }
 
@@ -275,13 +293,33 @@ function colorVisitedSquares(arr) {
   }
 }
 
+function knightPositionEventAdder() {
+  let submitBtn = document.getElementById("submitBtn");
+  submitBtn.addEventListener("click", eventScript);
+}
+
+//this script is called by clicking the submit btn
+function eventScript() {
+  let knightPosition = getKnightPosition();
+  let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
+  levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
+}
+
 //const knight = generateKnight();
 createSquares();
 const gameBoard = createGameBoard();
-//let knightPosition = getKnightPosition();
+knightPositionEventAdder();
+//testing purposes
+/*
 let knightPosition = [
   [0, 0],
   [7, 7],
 ];
+*/
+
+//original calls at end of code /
+/*
+let knightPosition = getKnightPosition();
 let builtKnightTree = buildKnightTree(knightPosition[0], knightPosition[1]);
 levelOrderTraversal(builtKnightTree, builtKnightTree.possibleSquares);
+*/
